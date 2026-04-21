@@ -1,0 +1,56 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    // Write to original.txt
+    ofstream createFile("original.txt");
+    if (!createFile) {
+        cout << "Failed to create the file.\n";
+        return 1;
+    }
+
+    createFile << "One\n";
+    createFile << "Two\n";
+    createFile << "Three\n";
+    createFile << "Four\n";
+    createFile << "Five\n";
+    createFile << "Six\n";
+
+    createFile.close();
+
+    // Read from original.txt
+    ifstream openFile("original.txt");
+    if (!openFile) {
+        cout << "Unable to open the file.\n";
+        return 1;
+    }
+
+    vector<string> textList;
+    string currentLine;
+
+    while (getline(openFile, currentLine)) {
+        textList.push_back(currentLine);
+    }
+
+    openFile.close();
+
+    sort(textList.begin(), textList.end());
+
+    ofstream outputFile("sorted.txt");
+    if (!outputFile) {
+        cout << "Could not create the output file.\n";
+        return 1;
+    }
+
+    for (string item : textList) {
+        outputFile << item << endl;
+    }
+
+    outputFile.close();
+
+    cout << "Text has been sorted and saved successfully.\n";
+    return 0;
+}
